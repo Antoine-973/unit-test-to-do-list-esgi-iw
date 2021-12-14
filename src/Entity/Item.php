@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ItemRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Carbon\Doctrine\DateTimeImmutableType;
+use \Carbon\Doctrine\DateTimeImmutableType;
 
 
 /**
@@ -69,12 +69,12 @@ class Item
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutableType
+    public function getCreatedAt(): ?DateTimeImmutableType
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutableType $createdAt): self
+    public function setCreatedAt(DateTimeImmutableType $createdAt): self
     {
         $this->createdAt = $createdAt;
 
