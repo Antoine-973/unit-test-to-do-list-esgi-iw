@@ -48,15 +48,18 @@ class UserController extends AbstractController
         $user->setLastname($request->get("lastname"));
         $user->setMail($request->get("email"));
         $user->setPassword($request->get('password'));
-        $user->setBirthdate(new DateTimeImmutableType());
-        //if($user->isValid())  {
-        $em->persit($user);
-        $em->flush();
-        return new Response(
-            'User has been created succesfully',
-            Response::HTTP_CREATED
-        );
-        //}
+
+        $dateInfo = explode("/",$request->get("birthdate")) ;
+
+        $user->setBirthdate(Carbon::create( $dateInfo[0], $dateInfo[1], $dateInfo[2],0,0,0,"Europe/Paris") );
+            if($user->isValid())  {
+            $em->persit($user);
+            $em->flush();
+            return new Response(
+                'User has been created succesfully',
+                Response::HTTP_CREATED
+            );
+        } else return  new Response('user is not valid',Response::HTTP_BAD_REQUEST) ;
     }
 
     #[Route('/user/{user_id}', name: 'user_get', methods: ['GET'])]

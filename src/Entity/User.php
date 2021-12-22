@@ -42,7 +42,7 @@ class User
     private $mail;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $birthdate;
 
@@ -105,13 +105,13 @@ class User
         return $this;
     }
 
-    public function getBirthdate(): ?DateTimeImmutableType
+    public function getBirthdate()
 
     {
         return $this->birthdate;
     }
 
-    public function setBirthdate(DateTimeImmutableType $birthdate): self
+    public function setBirthdate($birthdate): self
     {
         $this->birthdate = $birthdate;
 
@@ -128,5 +128,15 @@ class User
         $this->ToDoList = $ToDoList;
 
         return $this;
+    }
+
+    public function isValid(): bool
+    {
+        return !empty($this->email)
+            && filter_var($this->email, FILTER_VALIDATE_EMAIL)
+            && !empty($this->fname)
+            && !empty($this->lname)
+            && !is_null($this->birthdate)
+            && $this->birthdate->addYears(13)->isBefore(Carbon::now());
     }
 }
