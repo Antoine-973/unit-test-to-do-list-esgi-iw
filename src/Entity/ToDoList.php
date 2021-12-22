@@ -34,8 +34,9 @@ class ToDoList
      */
     private $utilisateur;
 
-    public function __construct()
+    public function __construct(string $name)
     {
+        $this->setName($name) ;
         $this->Item = new ArrayCollection();
     }
 

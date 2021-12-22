@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Carbon\Carbon;
-use Carbon\Doctrine\DateTimeImmutableType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,44 +14,45 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     #[Route('/user/new', name: 'user_new', methods: ['POST'])]
-    public function addUser(Request $request, UserRepository $userRepository)
+    public function addUser(Request $request, UserRepository $userRepository): Response
     {
-        $em = $this->getDoctrine()->getManager();
+
         $users = $userRepository->findAll();
 
-        if ($request->get("email") == "" || $request->get("email") == null)
+        if ($request->request->get("email") == "" || $request->request->get("email") == null)
             return new Response("Email is empty or not set", Response::HTTP_BAD_REQUEST);
 
         else {
             foreach ($users as $user) {
-                if ($user->getMail() == $request->get("email")) {
+                if ($user->getMail() == $request->request->get("email")) {
                     return new Response("Email already exist", Response::HTTP_BAD_REQUEST);
                 }
             }
         }
 
-        if ($request->get("lastname") == "" || $request->get("lastname") == null)
+        if ($request->request->get("lastname") == "" || $request->request->get("lastname") == null)
             return new Response("Lastname is empty or not set", Response::HTTP_BAD_REQUEST);
 
-        if ($request->get("firstname") == "" || $request->get("firstname") == null)
+        if ($request->request->tget("firstname") == "" || $request->request->get("firstname") == null)
             return new Response("Firstname is empty or not set", Response::HTTP_BAD_REQUEST);
 
-        if ($request->get("password") == "" || $request->get("password") == null)
+        if ($request->request->get("password") == "" || $request->request->get("password") == null)
             return new Response("password is empty or not set", Response::HTTP_BAD_REQUEST);
 
-        if ($request->get("birthdate") == "" || $request->get("birthdate") == null)
+        if ($request->request->get("birthdate") == "" || $request->request->get("birthdate") == null)
             return new Response("birthdate is empty or not set", Response::HTTP_BAD_REQUEST);
 
         $user = new User();
-        $user->setFirstname($request->get("firstname"));
-        $user->setLastname($request->get("lastname"));
-        $user->setMail($request->get("email"));
-        $user->setPassword($request->get('password'));
+        $user->setFirstname($request->request->get("firstname"));
+        $user->setLastname($request->request->get("lastname"));
+        $user->setMail($request->request->get("email"));
+        $user->setPassword($request->request->get('password'));
 
-        $dateInfo = explode("/",$request->get("birthdate")) ;
+        $dateInfo = explode("/",$request->request->get("birthdate")) ;
 
         $user->setBirthdate(Carbon::create( $dateInfo[0], $dateInfo[1], $dateInfo[2],0,0,0,"Europe/Paris") );
-            if($user->isValid())  {
+        if($user->isValid())  {
+            $em = $this->getDoctrine()->getManager();
             $em->persit($user);
             $em->flush();
             return new Response(
