@@ -11,10 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/user')]
 class UserController extends AbstractController
 {
-    #[Route('/user/new', name: 'user_new', methods: ['POST'])]
-    public function addUser(Request $request, UserRepository $userRepository): Response
+    #[Route('/new', name: 'user_new', methods: ['POST'])]
+    public function addUser(Request $request, UserRepository $userRepository)
     {
 
         $users = $userRepository->findAll();
@@ -62,7 +63,7 @@ class UserController extends AbstractController
         } else return  new Response('user is not valid',Response::HTTP_BAD_REQUEST) ;
     }
 
-    #[Route('/user/{user_id}', name: 'user_get', methods: ['GET'])]
+    #[Route('/{user_id}', name: 'user_get', methods: ['GET'])]
     public function getUserByID(User $user) {
         if($user != null)
             return new JsonResponse(json_encode($user),Response::HTTP_OK) ;

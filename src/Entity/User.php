@@ -3,10 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
-use \Carbon\Doctrine\DateTimeImmutableType;
-
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
