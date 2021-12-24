@@ -38,10 +38,10 @@ class UserController extends AbstractController
             return new Response("Firstname is empty or not set", Response::HTTP_BAD_REQUEST);
 
         if ($request->query->get("password") == "" || $request->query->get("password") == null)
-            return new Response("password is empty or not set", Response::HTTP_BAD_REQUEST);
+            return new Response("Password is empty or not set", Response::HTTP_BAD_REQUEST);
 
         if ($request->query->get("birthdate") == "" || $request->query->get("birthdate") == null)
-            return new Response("birthdate is empty or not set", Response::HTTP_BAD_REQUEST);
+            return new Response("Birthdate is empty or not set", Response::HTTP_BAD_REQUEST);
 
         $user = new User();
         $user->setFirstname($request->query->get("firstname"));
@@ -60,13 +60,13 @@ class UserController extends AbstractController
                 'User has been created succesfully',
                 Response::HTTP_CREATED
             );
-        } else return  new Response('user is not valid',Response::HTTP_BAD_REQUEST) ;
+        } else return  new Response('User is not valid',Response::HTTP_BAD_REQUEST) ;
     }
 
-    #[Route('/{user_id}', name: 'user_get', methods: ['GET'])]
-    public function getUserByID(User $user) {
+    #[Route('/{id}', name: 'user_get', methods: ['GET'])]
+    public function getUserByID(User $user): Response {
         if($user != null)
-            return new JsonResponse(json_encode($user),Response::HTTP_OK) ;
-        return new Response('user id is invalid', Response::HTTP_BAD_REQUEST) ;
+            return new JsonResponse(json_encode($user),Response::HTTP_OK);
+        return new Response('No User exist with this ID', Response::HTTP_BAD_REQUEST) ;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -29,13 +30,8 @@ class Item
     private $content;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=ToDoList::class, inversedBy="Item")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=ToDoList::class, inversedBy="User")
+     * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
      */
     private $toDoList;
 
@@ -64,18 +60,6 @@ class Item
     public function setContent(?string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeImmutableType
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeImmutableType $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

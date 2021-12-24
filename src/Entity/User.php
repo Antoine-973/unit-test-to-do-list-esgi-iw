@@ -45,7 +45,7 @@ class User
     private $birthdate;
 
     /**
-     * @ORM\OneToOne(targetEntity=ToDoList::class, inversedBy="utilisateur", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=ToDoList::class, inversedBy="utilisateur", cascade={"remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $ToDoList;
