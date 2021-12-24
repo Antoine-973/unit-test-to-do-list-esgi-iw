@@ -54,7 +54,7 @@ class UserController extends AbstractController
         $user->setBirthdate(Carbon::create( $dateInfo[0], $dateInfo[1], $dateInfo[2],0,0,0,"Europe/Paris") );
         if($user->isValid())  {
             $em = $this->getDoctrine()->getManager();
-            $em->persit($user);
+            $em->persist($user);
             $em->flush();
             return new Response(
                 'User has been created succesfully',

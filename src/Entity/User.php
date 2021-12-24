@@ -30,7 +30,7 @@ class User
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=40)
+     * @ORM\Column(type="string", length=255)
      */
     private $password;
 
@@ -46,7 +46,7 @@ class User
 
     /**
      * @ORM\OneToOne(targetEntity=ToDoList::class, inversedBy="utilisateur", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $ToDoList;
 
@@ -128,12 +128,12 @@ class User
         return $this;
     }
 
-    public function isValid(): bool
+    public function isValid(): string
     {
-        return !empty($this->email)
-            && filter_var($this->email, FILTER_VALIDATE_EMAIL)
-            && !empty($this->fname)
-            && !empty($this->lname)
+        return !empty($this->mail)
+            && filter_var($this->mail, FILTER_VALIDATE_EMAIL)
+            && !empty($this->firstname)
+            && !empty($this->lastname)
             && !is_null($this->birthdate)
             && $this->birthdate->addYears(13)->isBefore(Carbon::now());
     }
