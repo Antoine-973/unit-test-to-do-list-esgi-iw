@@ -30,7 +30,7 @@ class ToDoList
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="to_do_list")
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="ToDoList", cascade={"persist", "remove"})
      */
     private $utilisateur;
 

@@ -30,7 +30,7 @@ class User
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=40)
      */
     private $password;
 
@@ -45,7 +45,7 @@ class User
     private $birthdate;
 
     /**
-     * @ORM\OneToOne(targetEntity=ToDoList::class, inversedBy="utilisateur", cascade={"remove"})
+     * @ORM\OneToOne(targetEntity=ToDoList::class, inversedBy="utilisateur", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $ToDoList;
@@ -86,7 +86,7 @@ class User
 
     public function setPassword(string $password): self
     {
-        $this->password = password_hash( $password , PASSWORD_DEFAULT);
+        $this->password = $password;
 
         return $this;
     }
@@ -128,12 +128,15 @@ class User
         return $this;
     }
 
-    public function isValid(): string
+    public function isValid(): bool
     {
         return !empty($this->mail)
             && filter_var($this->mail, FILTER_VALIDATE_EMAIL)
             && !empty($this->firstname)
             && !empty($this->lastname)
+            && !empty($this->password)
+            && strlen($this->password) > 8
+            && strlen($this->password) < 40
             && !is_null($this->birthdate)
             && $this->birthdate->addYears(13)->isBefore(Carbon::now());
     }

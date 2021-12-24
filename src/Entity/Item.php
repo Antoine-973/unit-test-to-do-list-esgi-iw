@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use Carbon\Carbon;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 
 /**
  * @ORM\Entity(repositoryClass=ItemRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Item
 {
@@ -30,8 +32,13 @@ class Item
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ToDoList::class, inversedBy="User")
-     * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $toDoList;
 
@@ -62,6 +69,19 @@ class Item
         $this->content = $content;
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+    *  @ORM\PrePersist
+    */
+    public function setCreatedAt()
+    {
+        $this->createdAt = new \DateTime();
     }
 
     public function getToDoList(): ?ToDoList
