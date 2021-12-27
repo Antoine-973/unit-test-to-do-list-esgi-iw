@@ -38,7 +38,6 @@ class Item
 
     /**
      * @ORM\JoinColumn(nullable=false)
-     * @ORM\JoinColumn(nullable=false)
      */
     private $toDoList;
 
