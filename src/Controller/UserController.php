@@ -23,7 +23,7 @@ class UserController extends AbstractController
             return new Response("Email is empty or not set", Response::HTTP_BAD_REQUEST);
         else {
             foreach ($users as $user) {
-                if ($user->getMail() == $request->request->get("email")) {
+                if ($user->getMail() == $request->toArray()["mail"]) {
                     return new Response("Email already exist", Response::HTTP_BAD_REQUEST);
                 }
             }

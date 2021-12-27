@@ -18,12 +18,12 @@ class ItemController extends AbstractController
     {
         if($user == null)  return new Response('User does not exist', Response::HTTP_BAD_REQUEST) ;
         if($user->getToDoList() == null) return new Response('Todo list is empty or do not exist', Response::HTTP_BAD_REQUEST) ;
-        if($request->query->get('name') == null ) return new Response('Item name is not given', Response::HTTP_BAD_REQUEST) ;
+        if($request->toArray()["name"] == null ) return new Response('Item name is not given', Response::HTTP_BAD_REQUEST) ;
 
 
         $item = new Item();
-        $item->setName($request->query->get("name"));
-        $item->setContent($request->query->get("content"));
+        $item->setName($request->toArray()["name"]);
+        $item->setContent($request->toArray()["content"]);
 
         $item->setToDoList($user->getToDoList());
 
@@ -31,7 +31,7 @@ class ItemController extends AbstractController
         $em->persist($item) ;
         $em->flush() ;
         if($user->getToDoList()->count() == 8) {
-            throw new \Exception("Envoie du mail. Vous avez 8 élements dans la todolist. Vous pouvez en ajouter que 2");
+            throw new \Exception("Envoie du mail. Vous avez 8 élements dans la todolist. Vous pouvez en ajouter encore 2");
         }
         return new Response(
             "Item {$item->getName()} has been added succesfully to the toDoList {$user->getToDoList()->getName()} of {$user->getFirstname()} {$user->getLastname()}",
