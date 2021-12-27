@@ -37,7 +37,7 @@ class Item
     private $createdAt;
 
     /**
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=ToDoList::class, inversedBy="item")
      */
     private $toDoList;
 

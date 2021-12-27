@@ -30,7 +30,10 @@ class ItemController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($item) ;
         $em->flush() ;
-        if($user->getToDoList()->count() == 8) {
+
+        $items = $em->getRepository(Item::class);
+        $currentItems = $items->findBy(['toDoList' => $user->getToDoList()->getId()]);
+        if(count($currentItems) == 8) {
             throw new \Exception("Envoie du mail. Vous avez 8 élements dans la todolist. Vous pouvez en ajouter encore 2");
         }
         return new Response(
