@@ -29,6 +29,9 @@ class ItemController extends AbstractController
                 return new Response('Item name already exist', Response::HTTP_BAD_REQUEST) ;
         }
 
+        if(count($currentItems) == 10)
+            return new Response("Limite d'item atteinte. Vous ne pouvez pas en ajouter ", Response::HTTP_BAD_REQUEST) ;
+
         $item = new Item();
         $item->setName($request->toArray()["name"]);
         $item->setContent($request->toArray()["content"]);
@@ -40,7 +43,7 @@ class ItemController extends AbstractController
         $em->flush() ;
 
 
-        if(count($currentItems) == 8) {
+        if(count($currentItems) == 7) {
             throw new \Exception("Envoie du mail. Vous avez 8 élements dans la todolist. Vous pouvez en ajouter encore 2");
         }
         return new Response(
