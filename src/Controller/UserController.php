@@ -19,10 +19,8 @@ class UserController extends AbstractController
     {
 
         $users = $userRepository->findAll();
-
-        if ($request->query->get("email") == "" || $request->query->get("email") == null)
+        if ($request->toArray()["mail"] == "" || $request->toArray()["mail"] == null)
             return new Response("Email is empty or not set", Response::HTTP_BAD_REQUEST);
-
         else {
             foreach ($users as $user) {
                 if ($user->getMail() == $request->request->get("email")) {
@@ -31,25 +29,25 @@ class UserController extends AbstractController
             }
         }
 
-        if ($request->query->get("lastname") == "" || $request->query->get("lastname") == null)
+        if ($request->toArray()["lastname"] == "" || $request->toArray()["lastname"] == null)
             return new Response("Lastname is empty or not set", Response::HTTP_BAD_REQUEST);
 
-        if ($request->query->get("firstname") == "" || $request->query->get("firstname") == null)
+        if ($request->toArray()["firstname"] == "" || $request->toArray()["firstname"] == null)
             return new Response("Firstname is empty or not set", Response::HTTP_BAD_REQUEST);
 
-        if ($request->query->get("password") == "" || $request->query->get("password") == null)
+        if ($request->toArray()["password"] == "" || $request->toArray()["password"] == null)
             return new Response("Password is empty or not set", Response::HTTP_BAD_REQUEST);
 
-        if ($request->query->get("birthdate") == "" || $request->query->get("birthdate") == null)
+        if ($request->toArray()["birthdate"] == "" || $request->toArray()["birthdate"] == null)
             return new Response("Birthdate is empty or not set", Response::HTTP_BAD_REQUEST);
 
         $user = new User();
-        $user->setFirstname($request->query->get("firstname"));
-        $user->setLastname($request->query->get("lastname"));
-        $user->setMail($request->query->get("email"));
-        $user->setPassword($request->query->get('password'));
+        $user->setFirstname($request->toArray()["firstname"]);
+        $user->setLastname($request->toArray()["lastname"]);
+        $user->setMail($request->toArray()["mail"]);
+        $user->setPassword($request->toArray()["password"]);
 
-        $dateInfo = explode("/",$request->query->get("birthdate")) ;
+        $dateInfo = explode("/",$request->toArray()["birthdate"]) ;
 
         $user->setBirthdate(Carbon::create( $dateInfo[0], $dateInfo[1], $dateInfo[2],0,0,0,"Europe/Paris") );
         if($user->isValid())  {

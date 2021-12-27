@@ -135,8 +135,8 @@ class User
             && !empty($this->firstname)
             && !empty($this->lastname)
             && !empty($this->password)
-            && strlen($this->password) > 8
-            && strlen($this->password) < 40
+            && strlen($this->password) >= 8
+            && strlen($this->password) <= 40
             && !is_null($this->birthdate)
             && $this->birthdate->addYears(13)->isBefore(Carbon::now());
     }
