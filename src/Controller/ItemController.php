@@ -20,6 +20,14 @@ class ItemController extends AbstractController
         if($user->getToDoList() == null) return new Response('Todo list is empty or do not exist', Response::HTTP_BAD_REQUEST) ;
         if($request->toArray()["name"] == null ) return new Response('Item name is not given', Response::HTTP_BAD_REQUEST) ;
 
+        $em = $this->getDoctrine()->getManager();
+        $items = $em->getRepository(Item::class);
+        $currentItems = $items->findBy(['toDoList' => $user->getToDoList()->getId()]);
+
+        foreach ($currentItems as $i) {
+            if($i->getName() == $request->toArray()['name'])
+                return new Response('Item name already exist', Response::HTTP_BAD_REQUEST) ;
+        }
 
         $item = new Item();
         $item->setName($request->toArray()["name"]);
@@ -27,12 +35,11 @@ class ItemController extends AbstractController
 
         $item->setToDoList($user->getToDoList());
 
-        $em = $this->getDoctrine()->getManager();
+
         $em->persist($item) ;
         $em->flush() ;
 
-        $items = $em->getRepository(Item::class);
-        $currentItems = $items->findBy(['toDoList' => $user->getToDoList()->getId()]);
+
         if(count($currentItems) == 8) {
             throw new \Exception("Envoie du mail. Vous avez 8 élements dans la todolist. Vous pouvez en ajouter encore 2");
         }
