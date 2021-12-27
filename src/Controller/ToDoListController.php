@@ -29,13 +29,13 @@ class ToDoListController extends AbstractController
     public function createUserTodoList(User $user, Request $request) {
       if($user == null)  return new Response('User does not exist', Response::HTTP_BAD_REQUEST) ;
       if($user->getToDoList() != null)  return new Response('User already have a ToDo list', Response::HTTP_BAD_REQUEST);
-      if($request->query->get("name") == "" || null ) return  new Response("Todo list name is not set", Response::HTTP_BAD_REQUEST);
-      $user->setToDoList(new ToDoList($request->query->get("name"))) ;
+      if($request->toArray()["name"]  == "" || null ) return  new Response("Todo list name is not set", Response::HTTP_BAD_REQUEST);
+      $user->setToDoList(new ToDoList($request->toArray()["name"])) ;
       $em = $this->getDoctrine()->getManager();
       $em->persist($user) ;
       $em->flush() ;
         return new Response(
-            "ToDoList {$request->query->get("name")} has been created succesfully for {$user->getFirstname()} {$user->getLastname()}",
+            "ToDoList {$request->toArray()["name"]} has been created succesfully for {$user->getFirstname()} {$user->getLastname()}",
             Response::HTTP_CREATED
         );
     }
