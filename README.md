@@ -1,8 +1,8 @@
-#unit-test-to-do-list-esgi-iw
+# unit-test-to-do-list-esgi-iw
 
-##Endpoints :
+## Endpoints :
 
-###create user : /user/new
+### create user : /user/new
 ```json
 method : POST
 body  
@@ -15,13 +15,13 @@ body
 }
 ```
 
-###get user : /user/{user_id}
+### get user : /user/{user_id}
 ```json
 method : GET
 body : none
 ```
 
-###create todo list for a user : /user/{user_id}/todo-list/new
+### create todo list for a user : /user/{user_id}/todo-list/new
 ```json
 method : POST
 body : 
@@ -30,12 +30,12 @@ body :
 }
 ```
 
-###get todo list from user : /user/{user_id}/todo-list
+### get todo list from user : /user/{user_id}/todo-list
 ```json
 method : GET
 ```
 
-###ajouter un item dans la list : /user/{user_id}/todo-list/addItem
+### add item in a list : /user/{user_id}/todo-list/addItem
 ```json
 method : POST
 body :
@@ -45,7 +45,7 @@ body :
 }
 ```
 
-###get one item in todo list : /user/{user_id}/todo-list/item/{item_id}
+### get one item in todo list : /user/{user_id}/todo-list/item/{item_id}
 ```json
 method : GET
 body : none
