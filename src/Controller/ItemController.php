@@ -19,22 +19,24 @@ class ItemController extends AbstractController
         if($user == null)  return new Response('User does not exist', Response::HTTP_BAD_REQUEST) ;
         if($user->getToDoList() == null) return new Response('Todo list is empty or do not exist', Response::HTTP_BAD_REQUEST) ;
         if($request->toArray()["name"] == null ) return new Response('Item name is not given', Response::HTTP_BAD_REQUEST) ;
-        if(strlen($request->toArray()['content']) > 1000 ) return new Response('Content is to big', Response::HTTP_BAD_REQUEST) ;
+
         $em = $this->getDoctrine()->getManager();
         $items = $em->getRepository(Item::class);
         $currentItems = $items->findBy(['toDoList' => $user->getToDoList()->getId()]);
 
-        $lastItemDateTime = end($currentItems)->getCreatedAt() ;
-        $diff = $lastItemDateTime->diff(new \DateTime()) ;
-        if($diff->i < 1)
-            return new Response("Attend encore un peu...", Response::HTTP_BAD_REQUEST) ;
         foreach ($currentItems as $i) {
             if($i->getName() == $request->toArray()['name'])
                 return new Response('Item name already exist', Response::HTTP_BAD_REQUEST) ;
         }
+        if(strlen($request->toArray()['content']) > 1000 ) return new Response('Content is to big', Response::HTTP_BAD_REQUEST) ;
 
         if(count($currentItems) == 10)
             return new Response("Limite d'item atteinte. Vous ne pouvez pas en ajouter ", Response::HTTP_BAD_REQUEST) ;
+
+        $lastItemDateTime = end($currentItems)->getCreatedAt() ;
+        $diff = $lastItemDateTime->diff(new \DateTime()) ;
+        if($diff->h == 0 && $diff->i < 1)
+            return new Response("Attend encore un peu...", Response::HTTP_BAD_REQUEST) ;
 
         $item = new Item();
         $item->setName($request->toArray()["name"]);
