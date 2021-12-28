@@ -116,6 +116,9 @@ class User
         return $this;
     }
 
+    /**
+     * @return ToDoList|null
+     */
     public function getToDoList(): ?ToDoList
     {
         return $this->ToDoList;

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Item;
 use App\Entity\ToDoList;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,16 @@ class ToDoListController extends AbstractController
             return new Response('User does not exist', Response::HTTP_BAD_REQUEST) ;
         if($user->getToDoList() == null)
             return new Response('Todo list is empty or do not exist', Response::HTTP_BAD_REQUEST) ;
-        return new JsonResponse(json_encode($user->getToDoList()),Response::HTTP_BAD_REQUEST) ;
+        $em = $this->getDoctrine()->getManager();
+        $todoListRepository = $em->getRepository(ToDoList::class);
+        $currentTodoList = $todoListRepository->findOneBy(["id"=>$user->getToDoList()->getId()]) ;
+        $itemRepository = $em->getRepository(Item::class) ;
+        $currentItems = $itemRepository->findBy(['toDoList' => $user->getToDoList()->getId()]);
+        $content = $currentTodoList->getName() . PHP_EOL;
+        foreach ($currentItems as $item) {
+            $content .= $item->getName() . " :" . $item->getContent() . PHP_EOL ;
+        }
+        return new Response($content,Response::HTTP_OK) ;
     }
 
     #[Route('/{user}/todo-list/new', name: 'todo-list_new', methods:['POST'])]
