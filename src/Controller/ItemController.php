@@ -35,7 +35,7 @@ class ItemController extends AbstractController
 
         $lastItemDateTime = end($currentItems)->getCreatedAt() ;
         $diff = $lastItemDateTime->diff(new \DateTime()) ;
-        if($diff->h == 0 && $diff->i < 1)
+        if($diff->y == 0 && $diff->m == 0 && $diff->d == 0 &&$diff->h == 0 && $diff->i < 1)
             return new Response("Attend encore un peu...", Response::HTTP_BAD_REQUEST) ;
 
         $item = new Item();
