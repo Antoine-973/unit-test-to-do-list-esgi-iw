@@ -3,50 +3,48 @@
 ## Endpoints :
 
 ### create user : /user/new
+method : POST  
 ```json
-method : POST
-body  
 {  
-  lastname: "",    
-  firstname : "", 
-  password: "",  
-  email: "",
-  birthdate :"" //yyyy/mm/dd
+  "lastname": "",    
+  "firstname" : "", 
+  "password": "",  
+  "email": "",
+  "birthdate" :"yyyy/mm/dd"
 }
 ```
 
 ### get user : /user/{user_id}
-```json
 method : GET
-body : none
+```json
+"body" : "none"
 ```
 
 ### create todo list for a user : /user/{user_id}/todo-list/new
-```json
 method : POST
-body : 
+```json
 {
-  name:""
+  "name":""
 }
 ```
 
 ### get todo list from user : /user/{user_id}/todo-list
-```json
 method : GET
+```json
+"body" : "none"
 ```
 
 ### add item in a list : /user/{user_id}/todo-list/addItem
-```json
 method : POST
-body :
+```json
 {
-  name : "",
-  content : ""
+  "name" : "",
+  "content" : ""
 }
 ```
 
 ### get one item in todo list : /user/{user_id}/todo-list/item/{item_id}
-```json
 method : GET
-body : none
+```json
+"body" : "none"
 ```
