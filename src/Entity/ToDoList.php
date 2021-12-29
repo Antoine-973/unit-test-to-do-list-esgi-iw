@@ -22,7 +22,7 @@ class ToDoList
     /**
      * @ORM\OneToMany(targetEntity=Item::class, mappedBy="toDoList", orphanRemoval=true)
      */
-    private $Item;
+    private $items;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -34,8 +34,9 @@ class ToDoList
      */
     private $utilisateur;
 
-    public function __construct()
+    public function __construct(string $name)
     {
+        $this->setName($name) ;
         $this->Item = new ArrayCollection();
     }
 
@@ -47,15 +48,15 @@ class ToDoList
     /**
      * @return Collection|Item[]
      */
-    public function getItem(): Collection
+    public function getItems(): Collection
     {
-        return $this->Item;
+        return $this->items;
     }
 
     public function addItem(Item $item): self
     {
         if (!$this->Item->contains($item)) {
-            $this->Item[] = $item;
+            $this->items[] = $item;
             $item->setToDoList($this);
         }
 

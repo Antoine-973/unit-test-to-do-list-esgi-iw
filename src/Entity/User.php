@@ -3,9 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
-use \Carbon\Doctrine\DateTimeImmutableType;
-
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -41,13 +40,13 @@ class User
     private $mail;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $birthdate;
 
     /**
      * @ORM\OneToOne(targetEntity=ToDoList::class, inversedBy="utilisateur", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $ToDoList;
 
@@ -104,28 +103,49 @@ class User
         return $this;
     }
 
-    public function getBirthdate(): ?DateTimeImmutableType
+    public function getBirthdate()
 
     {
         return $this->birthdate;
     }
 
-    public function setBirthdate(DateTimeImmutableType $birthdate): self
+    public function setBirthdate($birthdate): self
     {
         $this->birthdate = $birthdate;
 
         return $this;
     }
 
+    /**
+     * @return ToDoList|null
+     */
     public function getToDoList(): ?ToDoList
     {
         return $this->ToDoList;
     }
 
-    public function setToDoList(ToDoList $ToDoList): self
+    public function setToDoList(ToDoList $ToDoList): ?self
     {
-        $this->ToDoList = $ToDoList;
+        if (isset($this->ToDoList)){
+//            return new \Exception('User already have a ToDo list');
+            return null;
+        }else{
+            $this->ToDoList = $ToDoList;
+            return $this;
+        }
 
-        return $this;
+    }
+
+    public function isValid(): bool
+    {
+        return !empty($this->mail)
+            && filter_var($this->mail, FILTER_VALIDATE_EMAIL)
+            && !empty($this->firstname)
+            && !empty($this->lastname)
+            && !empty($this->password)
+            && strlen($this->password) >= 8
+            && strlen($this->password) <= 40
+            && !is_null($this->birthdate)
+            && $this->birthdate->addYears(13)->isBefore(Carbon::now());
     }
 }

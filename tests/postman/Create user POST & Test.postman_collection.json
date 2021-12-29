@@ -1,0 +1,430 @@
+{
+	"info": {
+		"_postman_id": "469035d3-f7b7-4156-b171-caffce02bfe2",
+		"name": "Create user POST & Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of user creation succes\",function() {\r",
+							"    pm.response.to.have.status(201) ; \r",
+							"    pm.expect( pm.response.body , \"User has been created succesfully\" ) ; \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Alexandre\",\r\n    \"lastname\": \"BAUDRY\",\r\n    \"mail\": \"alexbaudry0TEST@gmail.com\",\r\n    \"password\": \"test1234ded\",\r\n    \"birthdate\": \"1999/10/24\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create same user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of user creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"    pm.expect( pm.response.body , \"Email already exist\" ) ; \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Alexandre\",\r\n    \"lastname\": \"BAUDRY\",\r\n    \"mail\": \"alexbaudry0TEST@gmail.com\",\r\n    \"password\": \"test1234ded\",\r\n    \"birthdate\": \"1999/10/24\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "empty body",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of user creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"}) ; "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "only email in body",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of user creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"    pm.expect( pm.response.body , \"Lastname is empty or not set\" ) ; \r",
+							"}) ; "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"\",\r\n    \"lastname\": \"\",\r\n    \"mail\": \"alexbaudry01TEST@gmail.com\",\r\n    \"password\": \"\",\r\n    \"birthdate\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "firstname not set",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of user creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"    pm.expect( pm.response.body , \"Firstname is empty or not set\" ) ; \r",
+							"}) ; "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"\",\r\n    \"lastname\": \"BAUDRY\",\r\n    \"mail\": \"alexbaudry01TEST@gmail.com\",\r\n    \"password\": \"test1234ded\",\r\n    \"birthdate\": \"1999/10/24\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pwd is empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of user creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"    pm.expect( pm.response.body , \"Password is empty or not set\" ) ; \r",
+							"}) ; "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"Alexandre\",\r\n    \"lastname\": \"BAUDRY\",\r\n    \"password\":\"\",\r\n    \"mail\": \"alexbaudry02TEST@gmail.com\",\r\n    \"birthdate\": \"1999/10/24\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pwd too short",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of user creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"    pm.expect( pm.response.body , \"Password is empty or not set\" ) ; \r",
+							"}) ; "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"Alexandre\",\r\n    \"lastname\": \"BAUDRY\",\r\n    \"password\":\"1234\",\r\n    \"mail\": \"alexbaudry02TEST@gmail.com\",\r\n    \"birthdate\": \"1999/10/24\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pwd too long",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of user creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"    pm.expect( pm.response.body , \"Password is empty or not set\" ) ; \r",
+							"}) ; "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"Alexandre\",\r\n    \"lastname\": \"BAUDRY\",\r\n    \"password\":\"12345678901234567890123456789012345678901234567890\",\r\n    \"mail\": \"alexbaudry02TEST@gmail.com\",\r\n    \"birthdate\": \"1999/10/24\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "birthdate not set",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of user creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"    pm.expect( pm.response.body , \"Birthdate is empty or not set\" ) ; \r",
+							"}) ; "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Alexandre\",\r\n    \"lastname\": \"BAUDRY\",\r\n    \"mail\": \"alexbaudry01TEST@gmail.com\",\r\n    \"password\": \"test1234ded\",\r\n    \"birthdate\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user too young",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of user creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"    pm.expect( pm.response.body , \"User is not valid\" ) ; \r",
+							"}) ; "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Alexandre\",\r\n    \"lastname\": \"BAUDRY\",\r\n    \"mail\": \"alexbaudry01TEST@gmail.com\",\r\n    \"password\": \"test1234ded\",\r\n    \"birthdate\":\"2020/01/01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

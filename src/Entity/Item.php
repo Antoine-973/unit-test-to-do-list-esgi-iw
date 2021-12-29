@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use Carbon\Carbon;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use \Carbon\Doctrine\DateTimeImmutableType;
 
 
 /**
  * @ORM\Entity(repositoryClass=ItemRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Item
 {
@@ -30,13 +32,12 @@ class Item
     private $content;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ToDoList::class, inversedBy="Item")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=ToDoList::class, inversedBy="item")
      */
     private $toDoList;
 
@@ -69,16 +70,17 @@ class Item
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutableType
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutableType $createdAt): self
+    /**
+    *  @ORM\PrePersist
+    */
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->createdAt = new \DateTime();
     }
 
     public function getToDoList(): ?ToDoList
@@ -91,5 +93,13 @@ class Item
         $this->toDoList = $toDoList;
 
         return $this;
+    }
+
+    public function isValid(): bool
+    {
+        return !empty($this->name)
+            && !empty($this->createdAt)
+            && !empty($this->toDoList)
+            && strlen($this->content) <= 1000;
     }
 }
