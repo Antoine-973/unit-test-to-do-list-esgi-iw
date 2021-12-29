@@ -55,7 +55,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Test of user creation succes\",function() {\r",
+							"pm.test(\"Test of user creation with an email already in use\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
 							"    pm.expect( pm.response.body , \"Email already exist\" ) ; \r",
 							"});\r",
@@ -98,7 +98,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Test of user creation succes\",function() {\r",
+							"pm.test(\"Test of user creation with empty body\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
 							"}) ; "
 						],
@@ -139,7 +139,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Test of user creation succes\",function() {\r",
+							"pm.test(\"Test of user creation with only email in body\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
 							"    pm.expect( pm.response.body , \"Lastname is empty or not set\" ) ; \r",
 							"}) ; "
@@ -181,7 +181,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Test of user creation succes\",function() {\r",
+							"pm.test(\"Test of user creation with empty firstname\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
 							"    pm.expect( pm.response.body , \"Firstname is empty or not set\" ) ; \r",
 							"}) ; "
@@ -223,7 +223,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Test of user creation succes\",function() {\r",
+							"pm.test(\"Test of user creation with empty password\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
 							"    pm.expect( pm.response.body , \"Password is empty or not set\" ) ; \r",
 							"}) ; "
@@ -265,7 +265,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Test of user creation succes\",function() {\r",
+							"pm.test(\"Test of user creation with too short password\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
 							"    pm.expect( pm.response.body , \"Password is empty or not set\" ) ; \r",
 							"}) ; "
@@ -307,7 +307,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Test of user creation succes\",function() {\r",
+							"pm.test(\"Test of user creation with a too long password\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
 							"    pm.expect( pm.response.body , \"Password is empty or not set\" ) ; \r",
 							"}) ; "
@@ -349,7 +349,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Test of user creation succes\",function() {\r",
+							"pm.test(\"Test of user with empty birthdate\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
 							"    pm.expect( pm.response.body , \"Birthdate is empty or not set\" ) ; \r",
 							"}) ; "
@@ -391,7 +391,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Test of user creation succes\",function() {\r",
+							"pm.test(\"Test of too young user creation\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
 							"    pm.expect( pm.response.body , \"User is not valid\" ) ; \r",
 							"}) ; "

@@ -31,7 +31,7 @@ class ItemController extends AbstractController
         if(strlen($request->toArray()['content']) > 1000 ) return new Response('Content is to big', Response::HTTP_BAD_REQUEST) ;
 
         if(count($currentItems) == 10)
-            return new Response("Limite d'item atteinte. Vous ne pouvez pas en ajouter ", Response::HTTP_BAD_REQUEST) ;
+            return new Response("Limite d'item atteinte. Vous ne pouvez pas en ajouter", Response::HTTP_BAD_REQUEST) ;
 
         if (count($currentItems) > 0)
         {
