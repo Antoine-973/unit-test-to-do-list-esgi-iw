@@ -14,7 +14,8 @@
 						"exec": [
 							"pm.test(\"Test of item creation success\",function() {\r",
 							"    pm.response.to.have.status(201) ; \r",
-							"    pm.expect( pm.response.body , \"Item has been added succesfully to the ToDoList of the user\") ; \r",
+							"    const responseMessage = pm.response.text();\r",
+							"    pm.expect(responseMessage).to.eql(\"Item has been added succesfully to the ToDoList of the user\"); \r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -57,6 +58,60 @@
 			"response": []
 		},
 		{
+			"name": "create Another Item before 30minutes",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of item creation before the end of the 30 minutes\",function() {\r",
+							"    pm.response.to.have.status(400) ;\r",
+							"    const responseMessage = pm.response.text();\r",
+							"    pm.expect(responseMessage).to.eql(\"Attend encore un peu...\"); \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Before30S\",\r\n    \"content\":\"Before30S\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/1/todo-list/addItem",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"1",
+						"todo-list",
+						"addItem"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "create Item with already exist name",
 			"event": [
 				{
@@ -65,7 +120,9 @@
 						"exec": [
 							"pm.test(\"Test item creation with already exist name\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Item name already exist\") ; \r",
+							"    pm.expect( pm.response.body , \"Item name already exist\") ;\r",
+							"     const responseMessage = pm.response.text();\r",
+							"    pm.expect(responseMessage).to.eql(\"Attend encore un peu...\"); \r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -108,8 +165,9 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Test of item creation with empty name\",function() {\r",
-							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Item name is not given\") ; \r",
+							"    pm.response.to.have.status(400);\r",
+							"    const responseMessage = pm.response.text();\r",
+							"    pm.expect(responseMessage).to.eql('Item name is not given'); \r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -153,7 +211,8 @@
 						"exec": [
 							"pm.test(\"Test of item creation with too long content\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Content is to big\") ; \r",
+							"    const responseMessage = pm.response.text();\r",
+							"    pm.expect(responseMessage).to.eql('Content is to big'); \r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -195,20 +254,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"var items = pm.environment.get(\"items\")\r",
-							"\r",
-							"if(!items){\r",
-							"    var items = [\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\"];\r",
-							"}\r",
-							"\r",
-							"var currentItems = items.shift();\r",
-							"pm.environment.set(\"item\", currentItems);\r",
-							"pm.environment.set(\"items\", items);\r",
-							"\r",
-							"pm.test(\"Test of item creation success\",function() {\r",
-							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Item name is not given\") ; \r",
-							"});"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -217,18 +263,10 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"var items = pm.environment.get(\"items\")\r",
-							"\r",
-							"if(items && items.length > 0) {\r",
-							"    postman.setNextRequest(\"http://localhost/user/1/todo-list/addItem\")\r",
-							"}\r",
-							"else{\r",
-							"    postman.setNextRequest(\"http://localhost/user/1/todo-list/addItem\")\r",
-							"}\r",
-							"\r",
-							"pm.test(\"Test of item creation when reatching 8 elements\",function() {\r",
-							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Envoie du mail. Vous avez 8 élements dans la todolist. Vous pouvez en ajouter encore 2\") ; \r",
+							"pm.test(\"Test of item creation when reaching 8 elements\",function() {\r",
+							"    pm.response.to.have.status(400) ;\r",
+							"    const responseMessage = pm.response.text();\r",
+							"    pm.expect(responseMessage).to.eql('Envoie du mail. Vous avez 8 élements dans la todolist. Vous pouvez en ajouter encore 2');  \r",
 							"});\r",
 							""
 						],
@@ -241,7 +279,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"{{item}}\",\r\n    \"content\":\"Yo\"\r\n}",
+					"raw": "{\r\n    \"name\":\"Mail\",\r\n    \"content\":\"Yo\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -265,47 +303,6 @@
 			"response": []
 		},
 		{
-			"name": "create Another Item before 30minutes",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Test of item creation before the end of the 30 minutes\",function() {\r",
-							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Attend encore un peu...\") ; \r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"TooShort\",\r\n    \"content\":\"uries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. uries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum. uries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsumuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. uries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum. uries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": null
-			},
-			"response": []
-		},
-		{
 			"name": "create item while there is already 10 items in ToDoList",
 			"event": [
 				{
@@ -314,7 +311,8 @@
 						"exec": [
 							"pm.test(\"Test of item creation while there is already 10 items in ToDoList\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Limite d'item atteinte. Vous ne pouvez pas en ajouter\") ; \r",
+							"    const responseMessage = pm.response.text();\r",
+							"    pm.expect(responseMessage).to.eql(\"Limite d'item atteinte. Vous ne pouvez pas en ajouter\"); \r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -326,14 +324,26 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"11\",\r\n    \"content\":\"uries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. uries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum. uries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsumuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. uries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum. uries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\"\r\n}",
+					"raw": "{\r\n    \"name\":\"11\",\r\n    \"content\":\"Bonjour\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": null
+				"url": {
+					"raw": "http://localhost/user/1/todo-list/addItem",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"1",
+						"todo-list",
+						"addItem"
+					]
+				}
 			},
 			"response": []
 		}
