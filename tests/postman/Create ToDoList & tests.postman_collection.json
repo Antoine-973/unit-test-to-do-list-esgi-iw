@@ -14,8 +14,8 @@
 						"exec": [
 							"pm.test(\"Test of todolist creation succes\",function() {\r",
 							"    pm.response.to.have.status(201) ; \r",
-							"     var jsonData = pm.response.json();\r",
-							"     pm.expect(jsonData.value).to.eql(\"ToDoList has been created succesfully\") ;\r",
+							"     const jsonData = pm.response.text();\r",
+							"     pm.expect(jsonData).to.eql(\"ToDoList has been created succesfully\") ;\r",
 							"});\r",
 							""
 						],
@@ -60,7 +60,8 @@
 						"exec": [
 							"pm.test(\"Test of todolist creation with name already exist\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Todo list name is not set\") ; \r",
+							"    var jsonData = pm.response.text();\r",
+							"    pm.expect(jsonData).to.eql(\"Todo list name is not set\") ; \r",
 							"});\r",
 							""
 						],
@@ -105,7 +106,8 @@
 						"exec": [
 							"pm.test(\"Test of todolist creation without name\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"User already have a ToDo list\") ; \r",
+							"    var jsonData = pm.response.text();\r",
+							"    pm.expect(jsonData).to.eql(\"User already have a ToDo list\") ; \r",
 							"});\r",
 							""
 						],

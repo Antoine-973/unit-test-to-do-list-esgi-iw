@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "469035d3-f7b7-4156-b171-caffce02bfe2",
+		"_postman_id": "049e3684-5eb9-4143-b70f-0dbcc20c1beb",
 		"name": "Create user POST & Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,8 @@
 						"exec": [
 							"pm.test(\"Test of user creation succes\",function() {\r",
 							"    pm.response.to.have.status(201) ; \r",
-							"    pm.expect( pm.response.body , \"User has been created succesfully\" ) ; \r",
+							"    var jsonData = pm.response.text();\r",
+							"    pm.expect(jsonData).to.eql(\"User has been created succesfully\") ; \r",
 							"});\r",
 							""
 						],
@@ -57,7 +58,8 @@
 						"exec": [
 							"pm.test(\"Test of user creation with an email already in use\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Email already exist\" ) ; \r",
+							"    var jsonData = pm.response.text();\r",
+							"    pm.expect(jsonData).to.eql(\"Email already exist\") ;\r",
 							"});\r",
 							""
 						],
@@ -141,7 +143,8 @@
 						"exec": [
 							"pm.test(\"Test of user creation with only email in body\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Lastname is empty or not set\" ) ; \r",
+							"    var jsonData = pm.response.text();\r",
+							"    pm.expect(jsonData).to.eql(\"Lastname is empty or not set\") ; \r",
 							"}) ; "
 						],
 						"type": "text/javascript"
@@ -183,7 +186,8 @@
 						"exec": [
 							"pm.test(\"Test of user creation with empty firstname\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Firstname is empty or not set\" ) ; \r",
+							"    var jsonData = pm.response.text();\r",
+							"    pm.expect(jsonData).to.eql(\"Firstname is empty or not set\") ; \r",
 							"}) ; "
 						],
 						"type": "text/javascript"
@@ -217,7 +221,7 @@
 			"response": []
 		},
 		{
-			"name": "pwd is empty",
+			"name": "pwd not set",
 			"event": [
 				{
 					"listen": "test",
@@ -225,7 +229,8 @@
 						"exec": [
 							"pm.test(\"Test of user creation with empty password\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Password is empty or not set\" ) ; \r",
+							"    var jsonData = pm.response.text();\r",
+							"    pm.expect(jsonData).to.eql(\"Password is empty or not set\") ; \r",
 							"}) ; "
 						],
 						"type": "text/javascript"
@@ -351,7 +356,8 @@
 						"exec": [
 							"pm.test(\"Test of user with empty birthdate\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Birthdate is empty or not set\" ) ; \r",
+							"    var jsonData = pm.response.text();\r",
+							"    pm.expect(jsonData).to.eql(\"Birthdate is empty or not set\") ; \r",
 							"}) ; "
 						],
 						"type": "text/javascript"
