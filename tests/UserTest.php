@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Entity\User;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
@@ -10,15 +11,14 @@ class UserTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->user = new User('seb@test.fr', 'seb', 'sso', Carbon::now()->subYears(20));
+        $this->user = new User();
+        $this->user->setFirstname('Antoine');
+        $this->user->setLastname('Saunier');
+        $this->user->setMail('antoine.saunier@test.fr');
+        $this->user->setPassword('password');
+        $dateInfo = explode("/",'2000/08/23') ;
+        $this->user->setBirthdate(Carbon::create( $dateInfo[0], $dateInfo[1], $dateInfo[2],0,0,0,"Europe/Paris") );
         parent::setUp();
-    }
-
-    public function testUserIsValidNominal()
-    {
-        $u = new User('seb@test.fr', 'seb', 'sso', Carbon::now()->subYears(20));
-        $result = $u->isValid();
-        $this->assertTrue($result);
     }
 
     public function testIsValidNominal()
@@ -26,40 +26,63 @@ class UserTest extends TestCase
         $this->assertTrue($this->user->isValid());
     }
 
-    public function testUserNotValidDueToFName()
+    public function testNotValidDueToEmptyFirstname()
     {
-        $u = new User('seb@test.fr', '', 'sso', Carbon::now()->subYears(20));
-        $result = $u->isValid();
-        $this->assertFalse($result);
-    }
-
-    public function testNotValidDueToFName()
-    {
-        $this->user->setFname('');
+        $this->user->setFirstname('');
         $this->assertFalse($this->user->isValid());
     }
 
-    public function testNotValidDueToLName()
+    public function testNotValidDueToEmptyLastname()
     {
-        $this->user->setLname('');
+        $this->user->setLastname('');
+        $this->assertFalse($this->user->isValid());
+    }
+
+    public function testNotValidDueToEmptyPassword()
+    {
+        $this->user->setPassword('');
+        $this->assertFalse($this->user->isValid());
+    }
+
+    public function testNotValidDueToPasswordToShort()
+    {
+        $this->user->setPassword('Test');
+        $this->assertFalse($this->user->isValid());
+    }
+
+    public function testNotValidDueToPasswordToLong()
+    {
+        $this->user->setPassword('12345678901234567890123456789012345678901234567890');
         $this->assertFalse($this->user->isValid());
     }
 
     public function testNotValidDueToBirthdayInFuture()
     {
-        $this->user->setBirthday(Carbon::now()->addDecade());
+        $this->user->setBirthdate(Carbon::now()->addDecade());
         $this->assertFalse($this->user->isValid());
     }
 
     public function testNotValidDueToTooYoungUser()
     {
-        $this->user->setBirthday(Carbon::now()->subDecade());
+        $this->user->setBirthdate(Carbon::now()->subDecade());
         $this->assertFalse($this->user->isValid());
     }
 
-    public function testNotValidBadEmail()
+    public function testNotValidDueToEmptyBirthdate()
     {
-        $this->user->setEmail('toto');
+        $this->user->setBirthdate(Carbon::create( '', '', '',0,0,0,"Europe/Paris") );
+        $this->assertFalse($this->user->isValid());
+    }
+
+    public function testNotValidDueToEmptyEmail()
+    {
+        $this->user->setMail('');
+        $this->assertFalse($this->user->isValid());
+    }
+
+    public function testNotValidDueToBadEmail()
+    {
+        $this->user->setMail('toto');
         $this->assertFalse($this->user->isValid());
     }
 }
