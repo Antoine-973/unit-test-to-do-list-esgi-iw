@@ -23,7 +23,7 @@ class ItemTest extends TestCase
         $this->user->setPassword('password');
         $dateInfo = explode("/", '2000/08/23');
         $this->user->setBirthdate(Carbon::create($dateInfo[0], $dateInfo[1], $dateInfo[2], 0, 0, 0, "Europe/Paris"));
-        
+
         // Create ToDoList
         $this->user->setToDoList(new ToDoList("MaToDoList"));
 

@@ -33,10 +33,14 @@ class ItemController extends AbstractController
         if(count($currentItems) == 10)
             return new Response("Limite d'item atteinte. Vous ne pouvez pas en ajouter ", Response::HTTP_BAD_REQUEST) ;
 
-        $lastItemDateTime = end($currentItems)->getCreatedAt() ;
-        $diff = $lastItemDateTime->diff(new \DateTime()) ;
-        if($diff->y == 0 && $diff->m == 0 && $diff->d == 0 &&$diff->h == 0 && $diff->i < 1)
-            return new Response("Attend encore un peu...", Response::HTTP_BAD_REQUEST) ;
+        if (count($currentItems) > 0)
+        {
+            $lastItemDateTime = end($currentItems)->getCreatedAt() ;
+            $diff = $lastItemDateTime->diff(new \DateTime()) ;
+            if($diff->y == 0 && $diff->m == 0 && $diff->d == 0 &&$diff->h == 0 && $diff->i < 1)
+                return new Response("Attend encore un peu...", Response::HTTP_BAD_REQUEST) ;
+        }
+
 
         $item = new Item();
         $item->setName($request->toArray()["name"]);
@@ -53,7 +57,7 @@ class ItemController extends AbstractController
             throw new \Exception("Envoie du mail. Vous avez 8 élements dans la todolist. Vous pouvez en ajouter encore 2");
         }
         return new Response(
-            "Item {$item->getName()} has been added succesfully to the toDoList {$user->getToDoList()->getName()} of {$user->getFirstname()} {$user->getLastname()}",
+            "Item has been added succesfully to the ToDoList of the user",
             Response::HTTP_CREATED
         );
     }

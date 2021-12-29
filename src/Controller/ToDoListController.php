@@ -45,7 +45,7 @@ class ToDoListController extends AbstractController
       $em->persist($user) ;
       $em->flush() ;
         return new Response(
-            "ToDoList {$request->toArray()["name"]} has been created succesfully for {$user->getFirstname()} {$user->getLastname()}",
+            "ToDoList has been created succesfully",
             Response::HTTP_CREATED
         );
     }
