@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "049e3684-5eb9-4143-b70f-0dbcc20c1beb",
+		"_postman_id": "b0e85e5d-dd10-4052-9c0c-2ac8ec1ca845",
 		"name": "Create user POST & Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -272,7 +272,8 @@
 						"exec": [
 							"pm.test(\"Test of user creation with too short password\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Password is empty or not set\" ) ; \r",
+							"    var responseMessage = pm.response.text();\r",
+							"    pm.expect(responseMessage).to.eql(\"Password is empty or not set\") ; \r",
 							"}) ; "
 						],
 						"type": "text/javascript"
@@ -314,7 +315,8 @@
 						"exec": [
 							"pm.test(\"Test of user creation with a too long password\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"Password is empty or not set\" ) ; \r",
+							"    var responseMessage = pm.response.text();\r",
+							"    pm.expect(responseMessage).to.eql(\"Password is empty or not set\") ;  \r",
 							"}) ; "
 						],
 						"type": "text/javascript"
@@ -399,7 +401,8 @@
 						"exec": [
 							"pm.test(\"Test of too young user creation\",function() {\r",
 							"    pm.response.to.have.status(400) ; \r",
-							"    pm.expect( pm.response.body , \"User is not valid\" ) ; \r",
+							"    var jsonData = pm.response.text();\r",
+							"    pm.expect(jsonData).to.eql(\"User is not valid\") ;  \r",
 							"}) ; "
 						],
 						"type": "text/javascript"
