@@ -11,6 +11,8 @@ docker-compose exec php php bin/console d:s:u --force
 ```
 
 ### Run tests
+
+Run PhpUnit test : 
 ```bash
 # run all tests of the application
 php ./vendor/bin/phpunit
@@ -21,6 +23,11 @@ php ./vendor/bin/phpunit tests/Form
 # run tests for the UserController class
 php ./vendor/bin/phpunit tests/Controller/UserControllerTest.php
 ```
+
+Run Postman test :
+- Launch Postman
+- Click on Files
+- Click on Import and select files from the `tests/postman` directory
 
 ## Endpoints :
 
