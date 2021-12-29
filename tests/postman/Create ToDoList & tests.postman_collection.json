@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "0673f306-52ae-4ff3-af03-ab4c2f95877b",
+		"name": "Create ToDoList & tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create TodoList",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of todolist creation succes\",function() {\r",
+							"    pm.response.to.have.status(201) ; \r",
+							"    pm.expect( pm.response.body , \"ToDoList \"+pm.request.body['name']+\" has been created succesfully for Admin Test\") ; \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"todolist1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/1/todo-list/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"1",
+						"todo-list",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create duplicate TodoList",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of todolist creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"    pm.expect( pm.response.body , \"User already have a ToDo list\") ; \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"todolist1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/1/todo-list/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"1",
+						"todo-list",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create TodoList without name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test of todolist creation succes\",function() {\r",
+							"    pm.response.to.have.status(400) ; \r",
+							"    pm.expect( pm.response.body , \"Todo list name is not set\") ; \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/user/1/todo-list/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"1",
+						"todo-list",
+						"new"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
