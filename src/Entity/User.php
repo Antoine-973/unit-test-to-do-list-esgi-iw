@@ -124,11 +124,16 @@ class User
         return $this->ToDoList;
     }
 
-    public function setToDoList(ToDoList $ToDoList): self
+    public function setToDoList(ToDoList $ToDoList): ?self
     {
-        $this->ToDoList = $ToDoList;
+        if (isset($this->ToDoList)){
+//            return new \Exception('User already have a ToDo list');
+            return null;
+        }else{
+            $this->ToDoList = $ToDoList;
+            return $this;
+        }
 
-        return $this;
     }
 
     public function isValid(): bool

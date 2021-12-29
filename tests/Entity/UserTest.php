@@ -1,6 +1,8 @@
 <?php
 
 
+namespace App\Tests\Entity;
+
 use App\Entity\User;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
@@ -16,8 +18,8 @@ class UserTest extends TestCase
         $this->user->setLastname('Saunier');
         $this->user->setMail('antoine.saunier@test.fr');
         $this->user->setPassword('password');
-        $dateInfo = explode("/",'2000/08/23') ;
-        $this->user->setBirthdate(Carbon::create( $dateInfo[0], $dateInfo[1], $dateInfo[2],0,0,0,"Europe/Paris") );
+        $dateInfo = explode("/", '2000/08/23');
+        $this->user->setBirthdate(Carbon::create($dateInfo[0], $dateInfo[1], $dateInfo[2], 0, 0, 0, "Europe/Paris"));
         parent::setUp();
     }
 
@@ -70,7 +72,7 @@ class UserTest extends TestCase
 
     public function testNotValidDueToEmptyBirthdate()
     {
-        $this->user->setBirthdate(Carbon::create( '', '', '',0,0,0,"Europe/Paris") );
+        $this->user->setBirthdate(Carbon::create('', '', '', 0, 0, 0, "Europe/Paris"));
         $this->assertFalse($this->user->isValid());
     }
 
