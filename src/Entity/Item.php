@@ -94,4 +94,12 @@ class Item
 
         return $this;
     }
+
+    public function isValid(): bool
+    {
+        return !empty($this->name)
+            && !empty($this->createdAt)
+            && !empty($this->toDoList)
+            && strlen($this->content) <= 1000;
+    }
 }
