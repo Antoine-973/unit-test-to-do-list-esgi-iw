@@ -5,31 +5,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
-env:
-    DB_HOST: localhost
-    DB_USERNAME: postgres
-    DB_PASSWORD: password
     
 jobs:
   symfony-tests:
     runs-on: ubuntu-latest
-    
-    services:
-      postgres:
-            image: postgres:latest
-            env:
-              POSTGRES_PASSWORD: password
-              POSTGRES_DB: db
-              POSTGRES_USER: postgres
-            ports:
-              - 5432:5432
-            # Set health checks to wait until postgres has started
-            options: >-
-              --health-cmd pg_isready
-              --health-interval 10s
-              --health-timeout 5s
-              --health-retries 5
               
     steps:
     - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
@@ -48,10 +27,5 @@ jobs:
           ${{ runner.os }}-php-
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Create Database
-      run: |
-        bin/console d:s:u --dump-sql --force
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DATABASE_URL: postgresql://postgres:password@db:5432/db?serverVersion=13&charset=utf8
       run: vendor/bin/phpunit
